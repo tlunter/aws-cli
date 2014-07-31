@@ -47,17 +47,18 @@ class S3Handler(object):
                        'content_type': None, 'cache_control': None,
                        'content_disposition': None, 'content_encoding': None,
                        'content_language': None, 'expires': None,
-                       'grants': None}
+                       'grants': None, 'num_threads': 0,
+                       'chunk_size': 0}
         self.params['region'] = params['region']
         for key in self.params.keys():
             if key in params:
                 self.params[key] = params[key]
         self.multi_threshold = multi_threshold
-        self.chunksize = chunksize
+        self.chunksize = int(self.params['chunk_size']) or chunksize
         self.executor = Executor(
-            num_threads=NUM_THREADS, result_queue=self.result_queue,
-            quiet=self.params['quiet'], max_queue_size=MAX_QUEUE_SIZE,
-            write_queue=self.write_queue
+            num_threads=int(self.params['num_threads']) or NUM_THREADS,
+            result_queue=self.result_queue, quiet=self.params['quiet'],
+            max_queue_size=MAX_QUEUE_SIZE, write_queue=self.write_queue
         )
         self._multipart_uploads = []
         self._multipart_downloads = []

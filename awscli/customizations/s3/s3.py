@@ -794,7 +794,7 @@ CMD_DICT = {'cp': {'options': {'nargs': 2},
                               'website-redirect', 'content-type',
                               'cache-control', 'content-disposition',
                               'content-encoding', 'content-language',
-                              'expires']},
+                              'expires', 'num-threads', 'chunk-size']},
             'mv': {'options': {'nargs': 2},
                    'params': ['dryrun', 'quiet', 'recursive',
                               'include', 'exclude', 'acl',
@@ -865,6 +865,10 @@ PARAMS_DICT = {'dryrun': {'options': {'action': 'store_true'}},
                'content-encoding': {'options': {'nargs': 1}},
                'content-language': {'options': {'nargs': 1}},
                'expires': {'options': {'nargs': 1}},
+               'num-threads': {'options': {'nargs': 1, 'dest': 'num_threads'}, 'documents':
+                   ('Number of worker threads to use')},
+               'chunk-size': {'options': {'nargs': 1, 'dest': 'chunk_size'}, 'documents':
+                   ('Size of chunk to download at a time')},
                'size-only': {'options': {'action': 'store_true'}, 'documents':
                    ('Makes the size of each key the only criteria used to '
                     'decide whether to sync from source to destination.')},
