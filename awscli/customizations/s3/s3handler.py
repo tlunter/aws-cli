@@ -54,9 +54,13 @@ class S3Handler(object):
             if key in params:
                 self.params[key] = params[key]
         self.multi_threshold = multi_threshold
-        self.chunksize = int(self.params['chunk_size']) or chunksize
+        if self.params['chunk_size']:
+            self.params['chunk_size'] = int(self.params['chunk_size'][0])
+        if self.params['num_threads']:
+            self.params['num_threads'] = int(self.params['num_threads'][0])
+        self.chunksize = self.params['chunk_size'] or chunksize
         self.executor = Executor(
-            num_threads=int(self.params['num_threads']) or NUM_THREADS,
+            num_threads=self.params['num_threads'] or NUM_THREADS,
             result_queue=self.result_queue, quiet=self.params['quiet'],
             max_queue_size=MAX_QUEUE_SIZE, write_queue=self.write_queue
         )
